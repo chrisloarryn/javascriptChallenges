@@ -49,11 +49,11 @@ const callingFunction = async () => {
 const randomString = (len, charSet) => {
   charSet =
     charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  var randomString = ''
-  for (var i = 0; i < len; i++) {
+  let randomString = ''
+  for (let i = 0; i < len; i++) {
     if (len < 4) return 'n'
     if (len > 50) return 'n'
-    var randomPoz = Math.floor(Math.random() * charSet.length)
+    let randomPoz = Math.floor(Math.random() * charSet.length)
     randomString += charSet.substring(randomPoz, randomPoz + 1)
   }
   return randomString
