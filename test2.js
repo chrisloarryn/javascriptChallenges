@@ -27,11 +27,10 @@ function superStack(operations) {
         // console.log(sp)
         switch (sp[0]) {
             case ('push'):
-                values.push(sp[1]);
-                v.push(sp[1]);
+                console.log(values.push(sp[1]));
                 break;
             case ('pop'):
-                values.pop();
+                console.log((values.pop()));
                 v.push([]);
                 break;
             case ('inc'):
@@ -50,4 +49,4 @@ function superStack(operations) {
 }
 
 //superStack(operations)
-console.log(superStack(operations))
+superStack(operations)
