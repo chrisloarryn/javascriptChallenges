@@ -221,7 +221,6 @@ const newClientRanking = () => {
     taxNumber: '89893280',
     name: 'DENISSE ANTONIA HERMOSILLA CONTRERAS',
   })
-  console.log(id)
   accounts.push({ clientId: id, bankId: 3, balance: 9000 })
   const place = listClientsIdsSortByTaxNumber()
   return { index: place.indexOf(id), place: place.indexOf(id) + 1 }
