@@ -38,3 +38,17 @@ function countDown(number) {
 }
 
 countDown(4)
+
+console.log('sss', new Date().toISOString())
+
+const moment = require('moment')
+const tim = require('date-fns-tz')
+const date = new Date()
+const nyTimeZone = 'America/Santiago'
+const nyDate = tim.utcToZonedTime(date, nyTimeZone)
+const formatToString = date => {
+  return moment.utc(date).format()
+}
+
+console.log(formatToString(new Date()))
+console.log(nyDate)
