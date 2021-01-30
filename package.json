@@ -1,0 +1,34 @@
+{
+  "proxy": "https://www.yelp.com/developers/v3",
+  "name": "y",
+  "version": "1.0.0",
+  "description": "El codigo solo require tener instalado node.js, ademas para comodidad de ejecucion recomiendo instalar",
+  "main": "data.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "date-fns": "^2.16.1",
+    "date-fns-tz": "^1.0.12",
+    "graphql": "^15.5.0",
+    "moment": "^2.29.1",
+    "proposal-temporal": "^0.6.0",
+    "react": "^17.0.1",
+    "@apollo/client": "^3.3.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisloarryn/javascriptChallenges.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrisloarryn/javascriptChallenges/issues"
+  },
+  "homepage": "https://github.com/chrisloarryn/javascriptChallenges#readme"
+}
