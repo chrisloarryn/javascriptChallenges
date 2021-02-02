@@ -1,4 +1,7 @@
 const Axios = require('axios')
+const { gql } = require('@apollo/client')
+const system = require('system-commands')
+const { fetchApi } = require('./test040')
 
 const urlBase = 'api.yelp.com'
 const apiVersion = 'v3'
@@ -16,7 +19,6 @@ const axios = Axios.create({
   headers: {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json',
-    'Content-Type': 'application/x-www-form-urlencoded',
   },
 })
 
@@ -28,4 +30,24 @@ const fetch = async () => {
   console.log(await res)
 }
 
+const OTHER = `{
+    business(id: "garaje-san-francisco") {
+      name
+      id
+      alias
+      rating
+      url
+    }
+  }`
+
 fetch()
+
+const fetch2 = async () => {
+  const result = await fetchApi({ token, query: OTHER })
+  console.log(result)
+}
+fetch2()
+system(`curl -X POST -H "Authorization: Bearer ${token}" -H "Content-Type: application/graphql" https://api.yelp.com/v3/graphql --data '
+${OTHER}'`)
+  .then(output => output)
+  .catch(error => error)

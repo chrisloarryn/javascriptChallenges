@@ -8,6 +8,7 @@
     "test": "test"
   },
   "dependencies": {
+    "@apollo/client": "^3.3.7",
     "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "date-fns-tz": "^1.0.12",
@@ -15,7 +16,7 @@
     "moment": "^2.29.1",
     "proposal-temporal": "^0.6.0",
     "react": "^17.0.1",
-    "@apollo/client": "^3.3.7"
+    "system-commands": "^1.1.7"
   },
   "devDependencies": {},
   "scripts": {
