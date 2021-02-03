@@ -12,7 +12,8 @@ console.log(rokketFirst(8)(2)(1)) // this also outputs 16
 // (characterlength) string in the array.
 // Example:
 
-const rokketSecond = list => list.reduce((a, b) => a.length > b.length ? a : b)
+const rokketSecond = list =>
+  list.reduce((a, b) => (a.length > b.length ? a : b))
 
 const list = ['best', 'company', 'ever']
 console.log(rokketSecond(list)) // this outputs 'company'
@@ -28,6 +29,7 @@ console.log(rokketThird('node', 5)) // this outputs 'nodenodenodenodenode'
 console.log(rokketThird('abc', 2)) // this outputs 'abcabc'
 
 // 4. Only last names
+
 // Write a function called "rokket" which receives a list of names from a contact book. Each name is an object
 // consisting of a first name and last name. Return a listthat shows only the last names.
 // Example:
@@ -35,7 +37,7 @@ console.log(rokketThird('abc', 2)) // this outputs 'abcabc'
 const contacts = [
   { firstName: 'Juanito', lastName: 'Rokket' },
   { firstName: 'James', lastName: 'Bond' },
-  { firstName: 'Harry', lastName: 'Potter' }
+  { firstName: 'Harry', lastName: 'Potter' },
 ]
 
 const rokketFourth = contacts => contacts.map(c => c.lastName)
@@ -46,7 +48,7 @@ console.log(rokketFourth(contacts)) // this outputs ['Rokket', 'Bond', 'Potter']
 // intersection ofthe two arrays (all unique numbers in both arrays).
 // Example:
 
-const rokketFifth = (A1, A2) => [...new Set([...A1 , ...A2])]
+const rokketFifth = (A1, A2) => [...new Set([...A1, ...A2])]
 
 console.log(rokketFifth([1, 2, 5], [2, 1, 6])) // this outputs [1, 2, 5, 6]
 console.log(rokketFifth([1, 2, 3], [4, 5, 6])) // this outputs [1, 2, 3, 4, 5, 6]
