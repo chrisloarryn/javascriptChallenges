@@ -78,6 +78,8 @@ const value = Object.keys(input2).map(key => {
   return { name: `${key.trim()}`, value, values }
 })
 
+// query: obtener la data que ya existe
+
 const input3 = {
   _id: '602fdc06e0f0d4000842ec82',
   input: {
@@ -95,11 +97,11 @@ const input3 = {
     },
     subDepartment: '602ada7d4bafd31b207bcb8b',
     services: [
-      {
+      /*   {
         _id: '60313051651d3000088dea82',
         status: 'PENDING',
         service: '60116105db99454264a956f7',
-      },
+      }, */
       {
         status: 'PENDING',
         service: '60116105db99454264a956f8',
@@ -116,24 +118,12 @@ const input3 = {
         status: 'PENDING',
         service: '60116105db99454264a956fc',
       },
-    ],
-    centers: ['5fce40ebc0e22d00081ac1e4'],
-    workPlaces: ['60116097db99454264a95646'],
-    contract: {
-      hours: null,
-      signedAt: null,
-      termAt: null,
-      address: null,
-    },
-    categories: [
       {
-        _id: '603027e0dae7b900094f10b9',
-        category: '6011604cdb99454264a95642',
-        startDate: '2021-03-24T21:04:25.848Z',
+        _id: '60313051651d3000088dea81',
+        status: 'PENDING',
+        service: '60116105db99454264a956f7',
       },
     ],
-    positions: [],
-    createdAt: '2021-02-19T15:40:55.102Z',
   },
 }
 
@@ -146,43 +136,34 @@ const input4 = {
       comment: '',
       reason: '',
     },
-    department: {
-      department: '6011621cdb99454264a9581e',
-      realizationDate: null,
-      startDatePrivilege: null,
-      endDatePrivilege: null,
-    },
-    subDepartment: '602ada7d4bafd31b207bcb8b',
     services: [
       {
         _id: '60313051651d3000088dea82',
         status: 'PENDING',
         service: '60116105db99454264a956f7',
       },
-    ],
-    centers: ['5fce40ebc0e22d00081ac1e4'],
-    workPlaces: ['60116097db99454264a95646'],
-    contract: {
-      hours: null,
-      signedAt: null,
-      termAt: null,
-      address: null,
-    },
-    categories: [
       {
-        _id: '603027e0dae7b900094f10b9',
-        category: '6011604cdb99454264a95642',
-        startDate: '2021-03-24T21:04:25.848Z',
+        _id: '60313051651d3000088dea81',
+        status: 'PENDING',
+        service: '60116105db99454264a956f7',
       },
     ],
-    positions: [],
-    createdAt: '2021-02-19T15:40:55.102Z',
   },
 }
 
 const newItems = array => array.filter(item => !item._id)
-const oldItems = array => array.filter(item => item._id)
+const oldItems = array => array.map(item => item._id)
 
-console.log(newItems(input3.input.services))
+// newItems(input3.input.services).filter(item => item._id === )
+
+// console.log(newItems(input3.input.services)) // se guardan
+
+oldItems(input4.input.services).map(oldId => {
+  const [filterItem] = input3.input.services.filter(item => item._id === oldId)
+  if (!filterItem) {
+    console.log('delete', oldId)
+  } else console.log('update', filterItem)
+})
+
 // console.log(value[10].values)
 // getKeyValue(input2[key])
