@@ -44,22 +44,13 @@ const newItems = [
 
 const newItems1 = [
   {
-    _id: '604f4ada3cb009c7b23cef07',
+    _id: null,
     service: '60116105db99454264a956f7',
     status: 'PENDING',
     realizationDate: undefined, // '2021-03-11T17:53:04.350Z'
     startDatePrivilege: undefined,
     endDatePrivilege: undefined,
     document: undefined,
-  },
-  {
-    _id: '604f4ada3cb009c7b23cef06',
-    service: '60116105db99454264a956fc',
-    status: 'PENDING',
-    realizationDate: '2021-03-11T17:53:04.350Z',
-    startDatePrivilege: '2021-03-11T17:53:04.350Z',
-    endDatePrivilege: '2021-03-11T17:53:04.350Z',
-    document: 'undefined',
   },
 ]
 
@@ -72,15 +63,6 @@ const newItems2 = [
     startDatePrivilege: undefined,
     endDatePrivilege: undefined,
     document: undefined,
-  },
-  {
-    _id: '604f4ada3cb009c7b23cef06',
-    service: '60116105db99454264a956fc',
-    status: 'PENDINGOS',
-    realizationDate: '2021-03-11T17:53:04.350Z',
-    startDatePrivilege: '2021-03-11T17:53:04.350Z',
-    endDatePrivilege: '2021-03-11T17:53:04.350Z',
-    document: 'undefined',
   },
 ]
 
