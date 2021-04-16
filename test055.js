@@ -9,7 +9,7 @@ function myCodeEx(items) {
   return items.sort((a, b) => map[a] - map[b] || a - b)
 }
 
-const x = myCodeEx(arr1)
+const x = myCodeEx(arr2)
 // console.log(x)
 
 // 1st Mar 1974 -> 1974-03-01
@@ -30,6 +30,6 @@ function processDates(dates) {
   })
 }
 
-const dates = ['1st Mar 1974', '22nd Jan 2013']
+const dates = ['1st Mar 1974', '22nd Jan 2013', '14th Sep 1995']
 
-console.log(processDates(dates))
+// console.log(processDates(dates))
