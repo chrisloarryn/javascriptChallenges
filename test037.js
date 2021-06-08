@@ -42,52 +42,104 @@ const banks = [
 /*
   SECCIÓN PROBLEMAS
     - No promover la copia:
-	  - No preguntar en StackOverflow, foros, o similares ya que estas preguntas/respuestas quedan disponibles a otros candidatos
-	  - No subir a repositorios públicos (github, o similares)
-	  - Otros sitios como codepen o editores de texto on-line (codepen, repl, o similares), dejan guardado el código, por lo que les pedimos tampoco usar editores on-line, la mejor forma de debuggear su código es usando un interprete de javascript como node y ejecutarlo de manera local
-	  - Para nosotros es fácil detectar pruebas con copia, no pierda su tiempo intentando hacerlo
-	  - Posteriormente, se evaluará conocimiento en es6 en entrevistas presenciales
+    - No preguntar en StackOverflow, foros, o similares ya que estas preguntas/respuestas quedan disponibles a otros candidatos
+    - No subir a repositorios públicos (github, o similares)
+    - Otros sitios como codepen o editores de texto on-line (codepen, repl, o similares), dejan guardado el código, por lo que les pedimos tampoco usar editores on-line, la mejor forma de debuggear su código es usando un interprete de javascript como node y ejecutarlo de manera local
+    - Para nosotros es fácil detectar pruebas con copia, no pierda su tiempo intentando hacerlo
+    - Posteriormente, se evaluará conocimiento en es6 en entrevistas presenciales
     - Las siguientes son preguntas básicas de Javascript y manejo de datos. Se evaluará eficiencia, ORDEN y claridad del código entregado.
     - Se debe programar un algoritmo para cada método y que este retorne lo requerido.
     - Debe usar nombres explicativos para sus variables.
     - Usar sintaxis ES6.
     - Los resultados son evaluados con un test automatizado, revise que sus retornos sean con la estructura de datos solicitada en cada pregunta.
-	- Métodos menos verbosos, DRY, y buenas prácticas en el código mejoran el puntaje final de su prueba
-	- Si necesita hacer supuestos que afecten las respuestas entregadas, por favor déjelos escritos en el cuerpo del correo cuando envíe su prueba (No en este archivo). Supuestos que contradigan lo solicitado, no serán considerados como válidos.
-	- Su prueba debe ejecutarse sin errores con: node nombre-apellido.js
+  - Métodos menos verbosos, DRY, y buenas prácticas en el código mejoran el puntaje final de su prueba
+  - Si necesita hacer supuestos que afecten las respuestas entregadas, por favor déjelos escritos en el cuerpo del correo cuando envíe su prueba (No en este archivo). Supuestos que contradigan lo solicitado, no serán considerados como válidos.
+  - Su prueba debe ejecutarse sin errores con: node nombre-apellido.js
             - Su prueba debe ejecutarse sin errores en la consola del inspector de Google Chrome
 */
 
+// custom
+const mapOneProperty =
+  prop => obj =>
+    obj[prop]
+
+const sortArrayByProperty = (
+  array = [],
+  property,
+  type = 'number',
+  direction = 1,
+) => {
+  if (type === 'date')
+    return array.sort(
+      (a, b) =>
+        (new Date(a[property]).getTime() - new Date(b[property]).getTime()) *
+        direction,
+    )
+
+  if (type === 'string')
+    return array.sort((a, b) => {
+      const valA = a[property],
+        valB = b[property]
+
+      if (typeof valA === 'string' && typeof valB === 'string')
+        return valA.localeCompare(valB) * direction
+
+      return 0
+    })
+
+  return array.sort((a, b) => {
+    const valA = a[property],
+      valB = b[property]
+
+    if (typeof valA === 'number' && typeof valB === 'number')
+      (valA - valB) * direction
+
+    return 0
+  })
+}
+
+const filterArrayByProperty = (
+  array = [],
+  property,
+  type = 'equals',
+  v2 = undefined
+) => {
+  if (type === 'equals')
+    return array.filter(el => el[property] === v2)
+
+  return array.filter(el => el[property] !== v2)
+}
+
+
+
+
 // 0 Arreglo con los ids de clientes
-function listClientsIds() {
-  return [...clients].map(client => client.id)
+function listClientsIds () {
+  return [...clients].map(mapOneProperty('id'))
 }
 
 // 1 Arreglo con los ids de clientes ordenados por rut
-function listClientsIdsSortByTaxNumber() {
-  return [...clients]
-    .sort((a, b) => a.taxNumber.localeCompare(b.taxNumber))
-    .map(client => client.id)
+function listClientsIdsSortByTaxNumber () {
+  return sortArrayByProperty([...clients], 'taxNumber', 'string', 1).map(mapOneProperty('id'))
 }
 
 // 2 Arreglo con los nombres de cliente ordenados de mayor a menor por la suma TOTAL de los saldos de cada cliente en los bancos que participa.
-function sortClientsTotalBalances() {
-  return [...clients]
-    .map(client => {
-      const pricesOrdered = [...accounts].filter(
-        account => account.clientId === client.id,
-      )
+function sortClientsTotalBalances () {
+  const data = [...clients]
+    .map(({ id, name }) => {
+      const pricesOrdered = filterArrayByProperty([...accounts], 'clientId', 'equals', id)
       return {
-        client: client.name,
+        client: name,
         total: pricesOrdered.reduce((acc, account) => acc + account.balance, 0),
       }
     })
-    .sort((a, b) => b.total - a.total)
-    .map(c => c.client)
+
+  return sortArrayByProperty(data, 'total', 'number', 1)
+    .map(mapOneProperty('client'))
 }
 
 // 3 Objeto en que las claves sean los nombres de los bancos y los valores un arreglo con los ruts de sus clientes ordenados alfabeticamente por nombre.
-function banksClientsTaxNumbers() {
+function banksClientsTaxNumbers () {
   const data = [...accounts]
     .map(account => ({
       ...clients.find(client => client.id === account.clientId && client),
@@ -106,7 +158,7 @@ function banksClientsTaxNumbers() {
 }
 
 // 4 Arreglo ordenado decrecientemente con los saldos de clientes que tengan más de 25.000 en el Banco SANTANDER
-function richClientsBalances() {
+function richClientsBalances () {
   let arrData = []
   const data = [...clients]
     .map(client => {
@@ -145,26 +197,25 @@ function richClientsBalances() {
 }
 
 // 5 Arreglo con ids de bancos ordenados crecientemente por la cantidad TOTAL de dinero que administran.
-function banksRankingByTotalBalance() {
-  return [...banks]
+function banksRankingByTotalBalance () {
+  const data = [...banks]
     .map(bank => {
       return {
         bankId: bank.id,
         bankName: bank.name,
-        amount: accounts
-          .filter(account => {
-            return bank.id === account.bankId
-          })
-          .map(client => client.balance)
-          .reduce((acc, account) => acc + account, 0),
+        amount:
+          filterArrayByProperty(accounts, 'bankId', 'equals', bank.id)
+            .map(mapOneProperty('balance'))
+            .reduce((acc, account) => acc + account, 0),
       }
     })
-    .sort((a, b) => a.amount - b.amount)
-    .map(({ bankId }) => bankId)
+
+    return sortArrayByProperty(data, 'amount', 'number', 1)
+    .map(mapOneProperty('bankId'))
 }
 
 // 6 Objeto en que las claves sean los nombres de los bancos y los valores el número de clientes que solo tengan cuentas en ese banco.
-function banksFidelity() {
+function banksFidelity () {
   let uniqueList = []
 
   const pushToUniqueList = item => {
@@ -186,15 +237,13 @@ function banksFidelity() {
     }
   })
 
-  return data.map(element => {
-    return {
-      [element.bankName]: element.accounts.reduce((acc, account) => acc + 1, 0),
-    }
-  })
+  return data.map(element => ({
+    [element.bankName]: element.accounts.reduce((acc, _account) => acc + 1, 0),
+  }))
 }
 
 // 7 Objeto en que las claves sean los nombres de los bancos y los valores el id de su cliente con menos dinero.
-function banksPoorClients() {
+function banksPoorClients () {
   return [...banks]
     .map(bank => {
       return {
@@ -208,17 +257,13 @@ function banksPoorClients() {
           .map(client => client.clientId),
       }
     })
-    .map(el => {
-      return {
-        [el.bankName]: el.accounts[0],
-      }
-    })
+    .map(el => ({ [el.bankName]: el.accounts[0] }))
 }
 
 // 8 Agregar nuevo cliente con datos ficticios a "clientes" y agregar una cuenta en el BANCO ESTADO con un saldo de 9000 para este nuevo empleado.
 // Luego devolver el lugar que ocupa este cliente en el ranking de la pregunta 2.
 // No modificar arreglos originales para no alterar las respuestas anteriores al correr la solución
-function newClientRanking() {
+function newClientRanking () {
   const id = clients.push({
     id: 7,
     taxNumber: '89893280',
@@ -239,13 +284,13 @@ console.log('Pregunta 2')
 console.log(sortClientsTotalBalances())
 console.log('Pregunta 3')
 console.log(banksClientsTaxNumbers())
-console.log('Pregunta 4')
-console.log(richClientsBalances())
-console.log('Pregunta 5')
-console.log(banksRankingByTotalBalance())
-console.log('Pregunta 6')
-console.log(banksFidelity())
-console.log('Pregunta 7')
-console.log(banksPoorClients())
-console.log('Pregunta 8')
-console.log(newClientRanking())
+// console.log('Pregunta 4')
+// console.log(richClientsBalances())
+// console.log('Pregunta 5')
+// console.log(banksRankingByTotalBalance())
+// console.log('Pregunta 6')
+// console.log(banksFidelity())
+// console.log('Pregunta 7')
+// console.log(banksPoorClients())
+// console.log('Pregunta 8')
+// console.log(newClientRanking())

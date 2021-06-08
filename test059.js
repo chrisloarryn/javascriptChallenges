@@ -8,3 +8,21 @@ const objElement = {
 }
 
 console.log(Array.from(objElement))
+
+const modifyPeople = (args) => {
+  if (args.name == 'Yisus 2') return null
+  return { ...args, age: 1, lastName: undefined }
+}
+
+const yisuses = [
+  {
+    name: 'Yisus 1'
+  },
+  {
+    name: 'Yisus 2'
+  }
+]
+
+const modifiedYisuses = yisuses.map(modifyPeople)
+
+console.log(modifiedYisuses)
