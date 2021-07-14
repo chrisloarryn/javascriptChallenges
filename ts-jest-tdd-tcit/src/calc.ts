@@ -1,6 +1,21 @@
 // Propiedad intelectual: Esta prueba fue desarrollada por TCIT el año 2014 y registrada bajo propiedad intelectual, cualquier publicación o difamación podría estar sujeta a acciones legales. Hay otras empresas que nos han copiado esta prueba, no aceptes imitaciones, exige el original xD
 // No realizar la prueba en repl.it al hacerlo su respuesta queda disponible para otros postulantes, tampoco subirla a repositorios de github públicos
 // No editar
+
+export type BasicInfo = {
+  id: number;
+  name: string;
+};
+
+export type Account = {
+  clientId: number;
+  bankId: number;
+  balance: number;
+};
+
+export type Bank = BasicInfo;
+export type Client = BasicInfo & { taxNumber: string };
+
 export const clients = [
   { id: 1, taxNumber: '86620855', name: 'HECTOR ACUÑA BOLAÑOS' },
   { id: 2, taxNumber: '7317855K', name: 'JESUS RODRIGUEZ ALVAREZ' },
@@ -92,12 +107,58 @@ export function sortClientsTotalBalances(): string[] {
 
 // 3 Objeto en que las claves sean los nombres de los bancos y los valores un arreglo con los ruts de sus clientes ordenados alfabeticamente por nombre.
 export function banksClientsTaxNumbers() {
-  // CODE HERE
+  let res = {};
+  const data = [...accounts].map((account) => ({
+    ...clients.find((client) => client.id === account.clientId && client),
+    ...account,
+  })) as (Client & Account)[];
+  banks.map(({ id, name }) => {
+    let clients = new Set<string>([]);
+    data.find((el: Client & Account) => {
+      if (el.bankId === id) clients.add(el.taxNumber);
+    });
+    res = { ...res, [name]: [...clients] };
+  });
+  return res;
 }
 
 // 4 Arreglo ordenado decrecientemente con los saldos de clientes que tengan más de 25.000 en el Banco SANTANDER
 export function richClientsBalances() {
-  // CODE HERE
+  let arrData = [];
+  const data = [...clients]
+    .map((client) => {
+      return {
+        clientId: client.id,
+        clientName: client.name,
+        accounts: [...accounts].filter(
+          (account) => client.id === account.clientId,
+        ),
+      };
+    })
+    .map((all) => {
+      const newAccs = [];
+      all.accounts.map((account) =>
+        account.bankId === 1 ? newAccs.push(account) : null,
+      );
+      return {
+        name: all.clientName,
+        amount: newAccs.reduce((acc, account) => acc + account.balance, 0),
+      };
+    })
+    .map((el, index, array) => {
+      if (el.amount === 0) array.splice(index, 1);
+      return array[index];
+    })
+    .filter((r) => r);
+  data
+    .map((person) => {
+      if (person.amount) return person;
+    })
+    .sort((a, b) => b.amount - a.amount)
+    .map((el) => {
+      arrData.push({ [el.name]: el.amount });
+    });
+  return arrData;
 }
 
 // 5 Arreglo con ids de bancos ordenados crecientemente por la cantidad TOTAL de dinero que administran.
